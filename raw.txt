@@ -1,0 +1,350 @@
+import { observer } from 'mobx-react';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { HLCollapse } from 'synos-helena';
+import { Col, Row } from 'antd';
+import { HLDatePicker, HLInput, HLPowerSelect, HLInputNumber } from 'synos-helena';
+
+@observer
+class Identificacao extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { store, isContained } = this.props;
+    const { object, selects } = store;
+    return (
+      <>
+        <HLCollapse defaultActiveKey={'identificacao'} className={'dof-collapse-painel'}>
+          <HLCollapse.Panel header={'Identificação'} key={'identificacao'}>
+            <Row gutter={16}>
+              <Col span={8} style={{ display: isContained('edofCodigo') ? 'block' : 'none' }}>
+                <HLPowerSelect
+                  label="Espécie"
+                  rules={store.getRules('edofCodigo')}
+                  field="edofCodigo"
+                  form={this.props.form}
+                  placeholder="Selecione..."
+                  selectedItem={object.edofCodigo}
+                  onChange={(value, option, selectedItem) => {
+                    store.updateAttributeDecoratorKeyValue('edofCodigo', value);
+                    selectedItem && store.updateIndicativo('indMovimentaEstoque', selectedItem);
+                  }}
+                  store={selects.selectEspecieDOF}
+                  itemKey="edofCodigo"
+                  itemLabel={['edofCodigo', 'nome']}
+                />
+              </Col>
+              <Col span={8} style={{ display: isContained('mdofCodigo') ? 'block' : 'none' }}>
+                <HLPowerSelect
+                  label="Modelo"
+                  rules={store.getRules('mdofCodigo')}
+                  field="mdofCodigo"
+                  form={this.props.form}
+                  placeholder="Selecione..."
+                  selectedItem={object.mdofCodigo}
+                  onChange={value => store.updateAttributeDecoratorKeyValue('mdofCodigo', value)}
+                  store={selects.selectModeloDOF}
+                  itemKey="mdofCodigo"
+                  itemLabel={['mdofCodigo', 'titulo']}
+                />
+              </Col>
+              <Col span={2} style={{ display: isContained('indEntradaSaida') ? 'block' : 'none' }}>
+                <HLPowerSelect
+                  label="E/S"
+                  rules={store.getRules('indEntradaSaida')}
+                  field="indEntradaSaida"
+                  form={this.props.form}
+                  placeholder="Selecione..."
+                  selectedItem={object.indEntradaSaida}
+                  onChange={value => store.updateAttributeDecoratorKeyValue('indEntradaSaida', value)}
+                  store={selects.entradaSaidaList}
+                  itemKey="value"
+                  itemLabel={['text']}
+                />
+              </Col>
+              <Col span={2} style={{ display: isContained('subserie') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Série'}
+                  placeholder={'Digite a série'}
+                  domainAttribute={'subserie'}
+                  initialValue={object.subserie}
+                  rules={store.getRules('subserie')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={2} style={{ display: isContained('serieSubserie') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Sub-Série'}
+                  placeholder={'Digite a sub-série'}
+                  domainAttribute={'serieSubserie'}
+                  initialValue={store.object.serieSubserie}
+                  rules={store.getRules('serieSubserie')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={2} style={{ display: isContained('numero') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Número'}
+                  placeholder={'Digite o número'}
+                  domainAttribute={'numero'}
+                  initialValue={object.numero}
+                  rules={store.getRules('numero')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('dhEmissao') ? 'block' : 'none' }}>
+                <HLDatePicker
+                  label="Emissão"
+                  rules={store.getRules('dhEmissao')}
+                  domainAttribute={'dhEmissao'}
+                  initialValue={object.dhEmissao}
+                  form={this.props.form}
+                  onChange={date => store.updateDateAttributeDecorator(date, 'dhEmissao')}
+                />
+              </Col>
+              {/* dtMovimento -> também*/}
+              <Col span={6} style={{ display: isContained('dtFatoGeradorImposto') ? 'block' : 'none' }}>
+                <HLDatePicker
+                  label="Fato Gerador"
+                  rules={store.getRules('dtFatoGeradorImposto')}
+                  domainAttribute={'dtFatoGeradorImposto'}
+                  initialValue={object.dtFatoGeradorImposto}
+                  form={this.props.form}
+                  onChange={date => store.updateDateAttributeDecorator(date, 'dtFatoGeradorImposto')}
+                />
+              </Col>
+              <Col span={12} style={{ display: isContained('nfeLocalizador') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Chave Eletrônica'}
+                  placeholder={'Digite a chave eletrônica'}
+                  domainAttribute={'nfeLocalizador'}
+                  initialValue={object.nfeLocalizador}
+                  rules={store.getRules('nfeLocalizador')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('codigo') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Equipamento'}
+                  domainAttribute={'codigo'}
+                  rules={store.getRules('codigo')}
+                  initialValue={object.codigo}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('codigo', value);
+                  }}
+                  placeholder={'Digite o equipamento'}
+                />
+              </Col>
+              <Col span={8} style={{ display: isContained('descricao') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Descrição'}
+                  placeholder={'Digite a descrição'}
+                  domainAttribute={'descricao'}
+                  initialValue={object.descricao}
+                  rules={store.getRules('descricao')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={8} style={{ display: isContained('numContZ') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Número do Contador da Leitura Z'}
+                  domainAttribute={'numContZ'}
+                  rules={store.getRules('numContZ')}
+                  initialValue={object.numContZ}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('numContZ', value);
+                  }}
+                  placeholder={'Digite a número do contador da leitura z'}
+                />
+              </Col>
+              <Col span={8} style={{ display: isContained('dtEscrituracao') ? 'block' : 'none' }}>
+                <HLDatePicker
+                  label="Data da Escrituração"
+                  rules={store.getRules('dtEscrituracao')}
+                  domainAttribute={'dtEscrituracao'}
+                  initialValue={object.dtEscrituracao}
+                  form={this.props.form}
+                  onChange={date => store.updateDateAttributeDecorator(date, 'dtEscrituracao')}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('vlTotGerIni') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Total Geral Inicial'}
+                  domainAttribute={'vlTotGerIni'}
+                  rules={store.getRules('vlTotGerIni')}
+                  initialValue={object.vlTotGerIni}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('vlTotGerIni', value);
+                  }}
+                  placeholder={'Digite o total geral inicial'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('vlTotGerFim') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Total Geral Final'}
+                  domainAttribute={'vlTotGerFim'}
+                  rules={store.getRules('vlTotGerFim')}
+                  initialValue={object.vlTotGerFim}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('vlTotGerFim', value);
+                  }}
+                  placeholder={'Digite o total geral final'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('numCupomIni') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Documento Inicial'}
+                  domainAttribute={'numCupomIni'}
+                  rules={store.getRules('numCupomIni')}
+                  initialValue={object.numCupomIni}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('numCupomIni', value);
+                  }}
+                  placeholder={'Digite o documento inicial'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('numCupomFim') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Documento Final'}
+                  domainAttribute={'numCupomFim'}
+                  rules={store.getRules('numCupomFim')}
+                  initialValue={object.numCupomFim}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('numCupomFim', value);
+                  }}
+                  placeholder={'Digite o documento final'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('contadorRo') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Contador de Reinicio de Operação (CRO)'}
+                  domainAttribute={'contadorRo'}
+                  rules={store.getRules('contadorRo')}
+                  initialValue={object.contadorRo}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('contadorRo', value);
+                  }}
+                  placeholder={'Digite o contador de reinicio de operação (CRO)'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('numCaixa') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Número Caixa'}
+                  domainAttribute={'numCaixa'}
+                  rules={store.getRules('numCaixa')}
+                  initialValue={object.numCaixa}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('numCaixa', value);
+                  }}
+                  placeholder={'Digite o número caixa'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('nrTot') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Número do Totalizador'}
+                  domainAttribute={'nrTot'}
+                  rules={store.getRules('nrTot')}
+                  initialValue={object.nrTot}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('nrTot', value);
+                  }}
+                  placeholder={'Digite o número do totalizador'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('descrNrTot') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Descrição do Totalizador'}
+                  placeholder={'Digite a descrição do totalizador'}
+                  domainAttribute={'descrNrTot'}
+                  initialValue={object.descrNrTot}
+                  rules={store.getRules('descrNrTot')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('numOrdemDoc') ? 'block' : 'none' }}>
+                <HLInputNumber
+                  label={'Número Ordem Documento Fiscal'}
+                  domainAttribute={'numOrdemDoc'}
+                  rules={store.getRules('numOrdemDoc')}
+                  initialValue={object.numOrdemDoc}
+                  form={this.props.form}
+                  onChange={value => {
+                    store.updateAttributeDecoratorKeyValue('numOrdemDoc', value);
+                  }}
+                  placeholder={'Digite o número ordem documento fiscal'}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('dtEmissao') ? 'block' : 'none' }}>
+                <HLDatePicker
+                  label="Data de Emissão"
+                  rules={store.getRules('dtEmissao')}
+                  domainAttribute={'dtEmissao'}
+                  initialValue={object.dtEmissao}
+                  form={this.props.form}
+                  onChange={date => store.updateDateAttributeDecorator(date, 'dtEmissao')}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('chvCfe') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Chave Eletrônica(Somente para modelo 59 e 65)'}
+                  placeholder={'Digite a chave eletrônica (somente para modelo 59 e 65)'}
+                  domainAttribute={'chvCfe'}
+                  initialValue={object.chvCfe}
+                  rules={store.getRules('chvCfe')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+              <Col span={6} style={{ display: isContained('nrSat') ? 'block' : 'none' }}>
+                <HLInput
+                  label={'Número Série Equipamento SAT (Somente para modelo 59)'}
+                  placeholder={'Digite o número série equipamento SAT (somente para modelo 59)'}
+                  domainAttribute={'nrSat'}
+                  initialValue={object.nrSat}
+                  rules={store.getRules('nrSat')}
+                  store={store}
+                  form={this.props.form}
+                  onChange={store.updateAttributeDecorator}
+                />
+              </Col>
+            </Row>
+          </HLCollapse.Panel>
+        </HLCollapse>
+      </>
+    );
+  }
+}
+
+Identificacao.displayName = 'Identificacao';
+
+Identificacao.propTypes = {
+  form: PropTypes.object,
+  store: PropTypes.object,
+  isContained: PropTypes.func,
+};
+
+export default Identificacao;

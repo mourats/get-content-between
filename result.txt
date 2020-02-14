@@ -1,0 +1,1 @@
+'edofCodigo', 'mdofCodigo', 'indEntradaSaida', 'subserie', 'serieSubserie', 'numero', 'dhEmissao', 'dtFatoGeradorImposto', 'nfeLocalizador', 'codigo', 'descricao', 'numContZ', 'dtEscrituracao', 'vlTotGerIni', 'vlTotGerFim', 'numCupomIni', 'numCupomFim', 'contadorRo', 'numCaixa', 'nrTot', 'descrNrTot', 'numOrdemDoc', 'dtEmissao', 'chvCfe', 'nrSat', 

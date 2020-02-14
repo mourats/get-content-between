@@ -1,0 +1,23 @@
+{
+  "name": "get-content-between",
+  "version": "1.0.0",
+  "description": "get strings content between initial and final string",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mourats/get-content-between.git"
+  },
+  "author": "mourats",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mourats/get-content-between/issues"
+  },
+  "homepage": "https://github.com/mourats/get-content-between#readme",
+  "dependencies": {
+    "ahocorasick": "^1.0.2",
+    "fs": "0.0.1-security"
+  }
+}

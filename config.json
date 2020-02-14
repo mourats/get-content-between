@@ -1,0 +1,4 @@
+{
+  "initial": "isContained('",
+  "final": "')?'block'"
+}
